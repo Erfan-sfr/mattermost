@@ -1,147 +1,147 @@
 # Mattermost Docker Installer
 
-یک اسکریپت تعاملی و قدرتمند برای نصب خودکار Mattermost روی سرورهای لینوکس با استفاده از Docker و Docker Compose.
+A powerful interactive script for automated Mattermost installation on Linux servers using Docker and Docker Compose.
 
-## 🚀 ویژگی‌ها
+## 🚀 Features
 
-- **نصب خودکار Docker**: نصب و پیکربندی Docker Engine و Docker Compose در صورت عدم وجود
-- **پشتیبانی از چندین توزیع**: سازگار با Ubuntu 22.04+, CentOS/RHEL, Fedora
-- **SSL رایگان**: پشتیبانی از HTTPS با استفاده از Caddy و Let's Encrypt
-- **پایگاه داده PostgreSQL**: نصب و پیکربندی خودکار PostgreSQL 16
-- **پیکربندی آسان**: رابط کاربری تعاملی برای تنظیمات اولیه
-- **مدیریت خودکار فایروال**: باز کردن خودکار پورت‌های مورد نیاز
+- **Automatic Docker Installation**: Install and configure Docker Engine and Docker Compose if missing
+- **Multi-Distribution Support**: Compatible with Ubuntu 22.04+, CentOS/RHEL, Fedora
+- **Free SSL**: HTTPS support with Caddy and Let's Encrypt
+- **PostgreSQL Database**: Automatic PostgreSQL 16 setup and configuration
+- **Easy Configuration**: Interactive interface for initial settings
+- **Automatic Firewall Management**: Automatically open required ports
 
-## 📋 پیش‌نیازها
+## 📋 Prerequisites
 
-- یک سرور لینوکس با دسترسی root یا sudo
-- حداقل 2GB RAM
-- حداقل 10GB فضای دیسک آزاد
-- اتصال به اینترنت
+- A Linux server with root or sudo access
+- Minimum 2GB RAM
+- Minimum 10GB free disk space
+- Internet connection
 
-## 🛠️ نصب و راه‌اندازی
+## 🛠️ Installation
 
-### ۱. دانلود اسکریپت
+### 1. Download the Script
 
 ```bash
 curl -O https://raw.githubusercontent.com/Erfan-sfr/mattermost/main/install-mattermost.sh
 chmod +x install-mattermost.sh
 ```
 
-### ۲. اجرای نصب
+### 2. Run Installation
 
 ```bash
 sudo bash install-mattermost.sh
 ```
 
-اسکریپت به صورت تعاملی شما را برای تنظیمات زیر راهنمایی می‌کند:
+The script will interactively guide you through the following configurations:
 
-#### تنظیمات اصلی
-- **مسیر نصب**: پیش‌فرض `/opt/mattermost`
-- **منطقه زمانی**: پیش‌فرض `Asia/Tehran`
+#### Basic Settings
+- **Installation Path**: Default `/opt/mattermost`
+- **Timezone**: Default `Asia/Tehran`
 
-#### تنظیمات دسترسی
-- **استفاده از دامنه**: فعال‌سازی HTTPS با Let's Encrypt
-- **دامنه**: مثلاً `chat.example.com`
-- **ایمیل مدیر**: برای گواهی SSL
-- **پورت عمومی**: پیش‌فرض `8065`
+#### Access Settings
+- **Use Domain**: Enable HTTPS with Let's Encrypt
+- **Domain**: e.g., `chat.example.com`
+- **Admin Email**: For SSL certificates
+- **Public Port**: Default `8065`
 
-#### تنظیمات پایگاه داده
-- **کاربر PostgreSQL**: پیش‌فرض `mmuser`
-- **نام پایگاه داده**: پیش‌فرض `mattermost`
-- **رمز عبور**: تولید خودکار یا ورود دستی
+#### Database Settings
+- **PostgreSQL User**: Default `mmuser`
+- **Database Name**: Default `mattermost`
+- **Password**: Auto-generate or manual entry
 
-#### تنظیمات Mattermost
-- **نسخه Mattermost**: پیش‌فرض `10.5.2`
+#### Mattermost Settings
+- **Mattermost Version**: Default `10.5.2`
 
-## 📁 ساختار فایل‌های تولید شده
+## 📁 Generated File Structure
 
-پس از اجرای اسکریپت، فایل‌های زیر در مسیر نصب ایجاد می‌شوند:
+After running the script, the following files are created in the installation directory:
 
 ```
 /opt/mattermost/
-├── docker-compose.yml    # فایل اصلی Docker Compose
-├── .env                  # متغیرهای محیطی
-├── Caddyfile            # تنظیمات وب سرور Caddy (در صورت استفاده از دامنه)
-└── README.md            # این فایل راهنما
+├── docker-compose.yml    # Main Docker Compose file
+├── .env                  # Environment variables
+├── Caddyfile            # Caddy web server config (if using domain)
+└── README.md            # This documentation
 ```
 
-## 🐳 سرویس‌های Docker
+## 🐳 Docker Services
 
 ### PostgreSQL
-- **ایمیج**: `postgres:16-alpine`
-- **حجم ذخیره‌سازی**: `db_data`
-- **بررسی سلامت**: هر 10 ثانیه
+- **Image**: `postgres:16-alpine`
+- **Storage Volume**: `db_data`
+- **Health Check**: Every 10 seconds
 
 ### Mattermost
-- **ایمیج**: `mattermost/mattermost-enterprise-edition`
-- **حجم‌های ذخیره‌سازی**: تنظیمات، داده‌ها، لاگ‌ها، پلاگین‌ها
-- **پورت**: `8065`
+- **Image**: `mattermost/mattermost-enterprise-edition`
+- **Storage Volumes**: Config, data, logs, plugins
+- **Port**: `8065`
 
-### Caddy (اختیاری)
-- **ایمیج**: `caddy:2-alpine`
-- **پورت‌ها**: `80`, `443`
-- **SSL**: خودکار با Let's Encrypt
+### Caddy (Optional)
+- **Image**: `caddy:2-alpine`
+- **Ports**: `80`, `443`
+- **SSL**: Automatic with Let's Encrypt
 
-## 🌐 دسترسی به Mattermost
+## 🌐 Accessing Mattermost
 
-### با دامنه و HTTPS
+### With Domain and HTTPS
 ```
 https://chat.example.com
 ```
 
-### بدون دامنه (IP محلی)
+### Without Domain (Local IP)
 ```
 http://YOUR_SERVER_IP:8065
 ```
 
-## 🔧 مدیریت سرویس‌ها
+## 🔧 Service Management
 
-### مشاهده وضعیت سرویس‌ها
+### Check Service Status
 ```bash
 cd /opt/mattermost
 docker compose ps
 ```
 
-### مشاهده لاگ‌ها
+### View Logs
 ```bash
-# لاگ Mattermost
+# Mattermost logs
 docker compose logs -f mattermost
 
-# لاگ PostgreSQL
+# PostgreSQL logs
 docker compose logs -f postgres
 
-# لاگ Caddy (در صورت استفاده)
+# Caddy logs (if using)
 docker compose logs -f caddy
 ```
 
-### راه‌اندازی مجدد
+### Restart Services
 ```bash
 docker compose restart
 ```
 
-### توقف سرویس‌ها
+### Stop Services
 ```bash
 docker compose down
 ```
 
-### بروزرسانی Mattermost
+### Update Mattermost
 ```bash
-# ویرایش .env و تغییر نسخه
+# Edit .env and change version
 nano .env
 
-# اجرای مجدد با نسخه جدید
+# Re-run with new version
 docker compose up -d --pull
 ```
 
-## 🔒 پیکربندی فایروال
+## 🔒 Firewall Configuration
 
-اسکریپت به صورت خودکار پورت‌های زیر را باز می‌کند:
+The script automatically opens the following ports:
 
 - **8065/tcp**: Mattermost
-- **80/tcp**: HTTP (در صورت استفاده از HTTPS)
-- **443/tcp**: HTTPS (در صورت استفاده از HTTPS)
+- **80/tcp**: HTTP (if using HTTPS)
+- **443/tcp**: HTTPS (if using HTTPS)
 
-### تنظیم دستی فایروال
+### Manual Firewall Setup
 
 #### UFW (Ubuntu)
 ```bash
@@ -158,59 +158,59 @@ sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
 ```
 
-## 📊 پشتیبان‌گیری
+## 📊 Backup and Recovery
 
-### پشتیبان‌گیری از پایگاه داده
+### Database Backup
 ```bash
 cd /opt/mattermost
 docker compose exec postgres pg_dump -U mmuser mattermost > backup.sql
 ```
 
-### بازیابی پایگاه داده
+### Database Recovery
 ```bash
 docker compose exec -T postgres psql -U mmuser mattermost < backup.sql
 ```
 
-### پشتیبان‌گیری از فایل‌ها
+### File Backup
 ```bash
 tar -czf mattermost-backup.tar.gz /opt/mattermost
 ```
 
-## 🛠️ عیب‌یابی
+## 🛠️ Troubleshooting
 
-### مشکلات رایج
+### Common Issues
 
-#### ۱. Mattermost در دسترس نیست
+#### 1. Mattermost Not Accessible
 ```bash
-# بررسی وضعیت سرویس‌ها
+# Check service status
 docker compose ps
 
-# بررسی لاگ‌ها
+# Check logs
 docker compose logs mattermost
 ```
 
-#### ۲. مشکلات SSL
+#### 2. SSL Issues
 ```bash
-# بررسی لاگ‌های Caddy
+# Check Caddy logs
 docker compose logs caddy
 
-# بررسی تنظیمات DNS
+# Check DNS settings
 nslookup chat.example.com
 ```
 
-#### ۳. مشکلات پایگاه داده
+#### 3. Database Issues
 ```bash
-# بررسی اتصال به PostgreSQL
+# Check PostgreSQL connection
 docker compose exec postgres pg_isready -U mmuser -d mattermost
 ```
 
-#### ۴. پورت‌ها بسته هستند
+#### 4. Ports Are Closed
 ```bash
-# بررسی پورت‌های باز
+# Check open ports
 sudo netstat -tlnp | grep :8065
 ```
 
-### حذف کامل نصب
+### Complete Removal
 ```bash
 cd /opt/mattermost
 docker compose down -v
@@ -218,69 +218,69 @@ cd ..
 rm -rf /opt/mattermost
 ```
 
-## 📝 متغیرهای محیطی
+## 📝 Environment Variables
 
-فایل `.env` شامل تنظیمات زیر است:
+The `.env` file contains the following settings:
 
 ```bash
-TZ=Asia/Tehran                    # منطقه زمانی
-POSTGRES_USER=mmuser              # کاربر PostgreSQL
-POSTGRES_PASSWORD=your_password   # رمز عبور PostgreSQL
-POSTGRES_DB=mattermost            # نام پایگاه داده
-MM_SITEURL=https://chat.example.com  # آدرس سایت Mattermost
-MATTERMOST_IMAGE_TAG=10.5.2       # نسخه Mattermost
-DOMAIN=chat.example.com           # دامنه
-ADMIN_EMAIL=admin@example.com     # ایمیل مدیر
+TZ=Asia/Tehran                    # Timezone
+POSTGRES_USER=mmuser              # PostgreSQL user
+POSTGRES_PASSWORD=your_password   # PostgreSQL password
+POSTGRES_DB=mattermost            # Database name
+MM_SITEURL=https://chat.example.com  # Mattermost site URL
+MATTERMOST_IMAGE_TAG=10.5.2       # Mattermost version
+DOMAIN=chat.example.com           # Domain
+ADMIN_EMAIL=admin@example.com     # Admin email
 ```
 
-## 🔧 پیکربندی پیشرفته
+## 🔧 Advanced Configuration
 
-### تغییر پورت Mattermost
+### Change Mattermost Port
 ```bash
-# ویرایش docker-compose.yml
+# Edit docker-compose.yml
 ports:
-  - "8080:8065"  # تغییر پورت از 8065 به 8080
+  - "8080:8065"  # Change port from 8065 to 8080
 
-# راه‌اندازی مجدد
+# Restart
 docker compose up -d
 ```
 
-### اضافه کردن پلاگین‌ها
+### Add Plugins
 ```bash
-# کپی پلاگین به کانتینر
+# Copy plugin to container
 docker cp plugin.tar.gz mm-app:/mattermost/plugins/
 
-# نصب پلاگین در Mattermost
-# از طریق پنل مدیریت Mattermost
+# Install plugin in Mattermost
+# Through Mattermost admin panel
 ```
 
-## 🤝 مشارکت
+## 🤝 Contributing
 
-برای مشارکت در این پروژه:
+To contribute to this project:
 
-1. Fork کنید
-2. شاخه جدید بسازید: `git checkout -b feature/new-feature`
-3. تغییرات را commit کنید: `git commit -am 'Add new feature'`
-4. Push کنید: `git push origin feature/new-feature`
-5. Pull Request ایجاد کنید
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/new-feature`
+3. Commit your changes: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature/new-feature`
+5. Submit a Pull Request
 
-## 📄 مجوز
+## 📄 License
 
-این پروژه تحت مجوز MIT منتشر شده است.
+This project is licensed under the MIT License.
 
-## 🆘 پشتیبانی
+## 🆘 Support
 
-- **GitHub Issues**: [ایجاد Issue جدید](https://github.com/Erfan-sfr/mattermost/issues)
-- **مستندات Mattermost**: [docs.mattermost.com](https://docs.mattermost.com)
+- **GitHub Issues**: [Create a new issue](https://github.com/Erfan-sfr/mattermost/issues)
+- **Mattermost Documentation**: [docs.mattermost.com](https://docs.mattermost.com)
 
-## 🔄 تاریخچه تغییرات
+## 🔄 Changelog
 
 ### v1.0.0
-- نسخه اولیه اسکریپت نصب Mattermost
-- پشتیبانی از Ubuntu 22.04+
-- نصب خودکار Docker و PostgreSQL
-- پشتیبانی از HTTPS با Caddy
+- Initial Mattermost installer script
+- Support for Ubuntu 22.04+
+- Automatic Docker and PostgreSQL installation
+- HTTPS support with Caddy
 
 ---
 
-**توجه**: این اسکریپت برای محیط‌های تولید (Production) طراحی شده است. لطفاً قبل از استفاده در محیط‌های حساس، تست کامل انجام دهید.
+**Note**: This script is designed for production environments. Please perform thorough testing before using in sensitive environments.
