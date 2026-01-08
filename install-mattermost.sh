@@ -283,7 +283,7 @@ EOF
   if [[ "$use_domain" == "yes" ]]; then
     cat >> docker-compose.yml <<'EOF'
 
-    caddy:
+caddy:
     image: caddy:2-alpine
     container_name: mm-caddy
     restart: unless-stopped
