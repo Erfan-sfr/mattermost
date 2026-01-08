@@ -1,0 +1,51 @@
+# Docker generated files
+docker-compose.yml
+.env
+Caddyfile
+
+# Docker volumes and data
+db_data/
+mm_config/
+mm_data/
+mm_logs/
+mm_plugins/
+mm_client_plugins/
+mm_bleve/
+caddy_data/
+caddy_config/
+
+# Backup files
+*.sql
+*.tar.gz
+backup-*
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Certificates (if generated locally)
+*.pem
+*.key
+*.crt
+certificates/
